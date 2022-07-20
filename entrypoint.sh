@@ -1,6 +1,8 @@
 #!/bin/sh -l
 # shellcheck disable=SC2039
 
+git config --global --add safe.directory /github/workspace
+
 if [ "$1" ] && [ "$1" != "package.json" ]; then
   cp "$1" package.json
 fi
@@ -25,7 +27,6 @@ if [ ! -z "$DEBUG" ]; then
   echo "==============================================="
   echo "=               DEBUG ENABLED                 ="
   echo "==============================================="
-  git config --global --add safe.directory /github/workspace
   echo "debug: listing current path"
   pwd
   echo "debug: listing current folder files"
