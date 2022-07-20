@@ -61,7 +61,10 @@ else
   unknown_commits="--allow-unknown "
 fi
 
-if [ -z "$DEBUG" ]; then
+if [ ! -z "$DEBUG" ]; then
+  echo "==============================================="
+  echo "=               DEBUG ENABLED                 =" 
+  echo "==============================================="
   echo "debug: listing current path"
   pwd
   echo "debug: listing current folder files"
@@ -69,6 +72,7 @@ if [ -z "$DEBUG" ]; then
   echo "debug: running command"
   echo "generate-changelog \"$changelog_type\" -t \"$previous_tag..$new_tag\" \"$exclude_types\" \"$unknown_commits\" --file -"
   ls
+  echo "==============================================="
 fi
 
 changelog=$(generate-changelog "$changelog_type" -t "$previous_tag..$new_tag" "$exclude_types" "$unknown_commits" --file -)
