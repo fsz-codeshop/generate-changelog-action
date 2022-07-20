@@ -25,6 +25,7 @@ if [ ! -z "$DEBUG" ]; then
   echo "==============================================="
   echo "=               DEBUG ENABLED                 ="
   echo "==============================================="
+  git config --global --add safe.directory /github/workspace
   echo "debug: listing current path"
   pwd
   echo "debug: listing current folder files"
