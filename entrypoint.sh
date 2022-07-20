@@ -10,7 +10,7 @@ fi
 if [ -z "$PACKAGE_DIR" ]; then
   echo "No path for the package.json passed. Fallbacking to root directory."
 else
-  echo "package-dir detected. Using its value."
+  echo "package-dir detected. Using package_dir=$PACKAGE_DIR value."
   cp "$PACKAGE_DIR" package.json
 fi
 
@@ -18,7 +18,7 @@ if [ -z "$FROM_TAG" ]; then
   echo "No from-tag passed. Fallbacking to git previous tag."
   previous_tag=$(git tag --sort version:refname | tail -n 2 | head -n 1)
 else
-  echo "From-tag detected. Using its value."
+  echo "From-tag detected. Using previous_tag=$FROM_TAG value."
   previous_tag=$FROM_TAG
 fi
 
@@ -26,14 +26,14 @@ if [ -z "$TO_TAG" ]; then
   echo "No to-tag passed. Fallbacking to git previous tag."
   new_tag=$(git tag --sort version:refname | tail -n 1)
 else
-  echo "To-tag detected. Using its value."
+  echo "To-tag detected. Using new_tag=$TO_TAG value."
   new_tag=$TO_TAG
 fi
 
 if [ -z "$TYPE" ]; then
   echo "No type passed. Fallbacking to unset."
 else
-  echo "Type detected. Using its value."
+  echo "Type detected. Using changelog_type=$TYPE value."
   case $TYPE in
     patch)
      changelog_type="--patch"
@@ -50,7 +50,7 @@ fi
 if [ -z "$EXCLUDE" ]; then
   echo "No commit types selected to exclude. Fallbacking to unset."
 else
-  echo "Commit types selected to exclude. Using its value."
+  echo "Commit types selected to exclude. Using exclude_types=$EXCLUDE value."
   exclude_types="--exclude $EXCLUDE"
 fi
 
@@ -59,6 +59,16 @@ if [ -z "$ALLOW_UKNOWN" ]; then
 else
   echo "Allowing unknown commit types."
   unknown_commits="--allow-unknown "
+fi
+
+if [ -z "$DEBUG" ]; then
+  echo "debug: listing current path"
+  pwd
+  echo "debug: listing current folder files"
+  ls
+  echo "debug: running command"
+  echo "generate-changelog \"$changelog_type\" -t \"$previous_tag..$new_tag\" \"$exclude_types\" \"$unknown_commits\" --file -"
+  ls
 fi
 
 changelog=$(generate-changelog "$changelog_type" -t "$previous_tag..$new_tag" "$exclude_types" "$unknown_commits" --file -)
