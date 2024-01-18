@@ -1,4 +1,4 @@
-FROM node:lts-alpine3.13
+FROM public.ecr.aws/docker/library/node:lts-alpine
 
 LABEL org.opencontainers.image.source="https://github.com/ScottBrenner/generate-changelog-action"
 
